@@ -1,30 +1,27 @@
-import { useAppSelector, useAppDispatch } from '../../app/hooks'
 import {
   decrement,
   increment,
-  selectCount,
-} from './counterSlice'
+} from '../../redux/actions'
 import styles from './Counter.module.css'
+import { connect } from "react-redux";
+import { AppState } from '../../app/store';
 
-function Counter() {
-  const dispatch = useAppDispatch()
-  const count = useAppSelector(selectCount)
-
+function Counter({increment, decrement, value}) {
   return (
     <div>
       <div className={styles.row}>
         <button
           className={styles.button}
           aria-label="Decrement value"
-          onClick={() => dispatch(decrement())}
+          onClick={() => decrement(value - 1)}
         >
           -
         </button>
-        <span className={styles.value}>{count}</span>
+        <span className={styles.value}>{value}</span>
         <button
           className={styles.button}
           aria-label="Increment value"
-          onClick={() => dispatch(increment())}
+          onClick={() => increment(value + 1)}
         >
           +
         </button>
@@ -33,4 +30,15 @@ function Counter() {
   )
 }
 
-export default Counter
+const mapStateToProps = (state: AppState) => {
+    return {
+        value: state.profile.value,
+    };
+};
+
+const mapDispatchToProps = {
+    increment,
+    decrement,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Counter);

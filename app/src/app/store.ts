@@ -1,15 +1,14 @@
-import counterReducer from '../features/counter/counterSlice'
+import { profileReducer } from '../redux/reducers/profileReducer'
 import { configureStore } from '@reduxjs/toolkit'
 
 export function makeStore() {
   return configureStore({
-    reducer: { counter: counterReducer },
+    reducer: { profile: profileReducer },
   })
 }
 
 const store = makeStore()
 
 export type AppState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
 
 export default store
